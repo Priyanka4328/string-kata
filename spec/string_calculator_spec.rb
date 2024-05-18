@@ -9,6 +9,22 @@ RSpec.describe StringCalculator do
             result = StringCalculator.add("1, 2")
             expect(result).to eq(3)
         end
+
+        context "size of input string" do
+
+            it "returns 0 when empty string passed as input" do
+                result = StringCalculator.add("")
+                expect(result).to eq(0)
+            end
+
+            it "returns excpetion when size of input string exceedes 10" do
+                input  = "0"
+                11.times do |i|
+                    input = input + ", " + (i+1).to_s
+                end
+                expect{ StringCalculator.add(input) }.to raise_error(ExceptionHandler::InvalidNumbersCount)
+            end
+        end
     end
 
 
