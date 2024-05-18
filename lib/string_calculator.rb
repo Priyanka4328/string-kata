@@ -14,7 +14,7 @@ class StringCalculator
     private
 
     def self.parse_numbers(numbers)
-        numbers = numbers.split(",")
+        numbers = numbers.split(/,|\n/)
         raise ExceptionHandler::InvalidNumbersCount,  INVALID_SIZE_ERROR if numbers.size > 10
         numbers.map(&:to_i)
     end
