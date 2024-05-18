@@ -29,7 +29,7 @@ RSpec.describe StringCalculator do
 
         context "support \n in string" do
 
-            it "return sum for valid string like '1\n2,3' " do
+            it "returns sum for valid string like '1\n2,3' " do
                 result = StringCalculator.add("1\n2,3")
                 expect(result).to eq(6)
             end
@@ -37,23 +37,46 @@ RSpec.describe StringCalculator do
 
         context "Validate input string" do
 
-            it "return sum for valid string like '1\n2,3' " do
+            it "returns sum for valid string like '1\n2,3' " do
                 result = StringCalculator.add("1\n2,3")
                 expect(result).to eq(6)
             end
 
-            it "return error for invalid string 1,\n" do
+            it "returns error for invalid string 1,\n" do
                 expect{ StringCalculator.add("1,\n") }.to raise_error(ExceptionHandler::InvalidNumbersString)
             end
 
 
-            it "return error for invalid string ,1\n" do
+            it "returns error for invalid string ,1\n" do
                 expect{ StringCalculator.add(",1\n") }.to raise_error(ExceptionHandler::InvalidNumbersString)
             end
 
-            it "return error for invalid string 1,,1\n" do
+            it "returns error for invalid string 1,,1\n" do
                 expect{ StringCalculator.add("1,,1\n") }.to raise_error(ExceptionHandler::InvalidNumbersString)
             end
+        end
+
+
+        context "Support different delimiters" do
+
+            it "returns sum for $ as delimiter for numbers in string" do
+                result = StringCalculator.add("//$\n1$2")
+                expect(result).to eq(3)
+            end
+
+            it "returns sum for % as delimiter for numbers in string" do
+                result = StringCalculator.add("//%\n1%2")
+                expect(result).to eq(3)
+            end
+        end
+
+
+        context "Should return error for invalid delimiter" do
+
+            it "returns exception for invalid string" do
+                expect { StringCalculator.add("//$\n1,2") }.to raise_error(ExceptionHandler::InvalidNumbersString)
+            end
+
         end
     end
 
