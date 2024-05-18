@@ -6,7 +6,7 @@ RSpec.describe StringCalculator do
     describe '.add' do
 
         it "returns sum of numbers" do
-            result = StringCalculator.add("1, 2")
+            result = StringCalculator.add("1,2")
             expect(result).to eq(3)
         end
 
@@ -16,7 +16,6 @@ RSpec.describe StringCalculator do
                 result = StringCalculator.add("")
                 expect(result).to eq(0)
             end
-
 
             it "returns excpetion when size of input string exceedes 10" do
                 input  = "0"
@@ -33,6 +32,27 @@ RSpec.describe StringCalculator do
             it "return sum for valid string like '1\n2,3' " do
                 result = StringCalculator.add("1\n2,3")
                 expect(result).to eq(6)
+            end
+        end
+
+        context "Validate input string" do
+
+            it "return sum for valid string like '1\n2,3' " do
+                result = StringCalculator.add("1\n2,3")
+                expect(result).to eq(6)
+            end
+
+            it "return error for invalid string 1,\n" do
+                expect{ StringCalculator.add("1,\n") }.to raise_error(ExceptionHandler::InvalidNumbersString)
+            end
+
+
+            it "return error for invalid string ,1\n" do
+                expect{ StringCalculator.add(",1\n") }.to raise_error(ExceptionHandler::InvalidNumbersString)
+            end
+
+            it "return error for invalid string 1,,1\n" do
+                expect{ StringCalculator.add("1,,1\n") }.to raise_error(ExceptionHandler::InvalidNumbersString)
             end
         end
     end
