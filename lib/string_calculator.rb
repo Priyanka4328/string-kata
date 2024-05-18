@@ -30,11 +30,18 @@ class StringCalculator
     # Validate numbers string regexp
     def self.validate_numbers(numbers)
         return if numbers.size == 0
-        pattern = /\d+#{Regexp.escape(@@delimiter)}?\d+/
 
+        negative_num_pattern = /-\d+/
+        if @@delimiter != "-" && numbers.match(negative_num_pattern)
+            nums = numbers.scan(negative_num_pattern).join(",")
+            raise ExceptionHandler::NegativeNumbersNotAllowed, "negative numbers not allowed #{nums}"
+        end
+
+        pattern = /^\d+#{Regexp.escape(@@delimiter)}?\d+/
         unless numbers.match(pattern)
             raise ExceptionHandler::InvalidNumbersString, 'Invalid String'
         end
+
     end
 
     # Find and Set Delimiter from input string

@@ -18,9 +18,9 @@ RSpec.describe StringCalculator do
             end
 
             it "returns excpetion when size of input string exceedes 10" do
-                input  = "0"
+                input  = "1"
                 11.times do |i|
-                    input = input + ", " + (i+1).to_s
+                    input = input + "," + (i+1).to_s
                 end
                 expect{ StringCalculator.add(input) }.to raise_error(ExceptionHandler::InvalidNumbersCount)
             end
@@ -54,6 +54,10 @@ RSpec.describe StringCalculator do
             it "returns error for invalid string 1,,1\n" do
                 expect{ StringCalculator.add("1,,1\n") }.to raise_error(ExceptionHandler::InvalidNumbersString)
             end
+
+            it "returns error for invalid string //-\n-1-1-3" do
+                expect{ StringCalculator.add("//-\n-1-1-3") }.to raise_error(ExceptionHandler::InvalidNumbersString)
+            end
         end
 
 
@@ -68,6 +72,11 @@ RSpec.describe StringCalculator do
                 result = StringCalculator.add("//%\n1%2")
                 expect(result).to eq(3)
             end
+
+            it "return sum for - as delimiter for numbers in string" do
+                result = StringCalculator.add("//-\n1-2")
+                expect(result).to eq(3)
+            end
         end
 
 
@@ -77,6 +86,16 @@ RSpec.describe StringCalculator do
                 expect { StringCalculator.add("//$\n1,2") }.to raise_error(ExceptionHandler::InvalidNumbersString)
             end
 
+        end
+
+
+        context "Should return exception for negative numbers in string" do
+
+            it "returns exception for invalid string" do
+                numbers = "1,2,3,-1,2,-5"
+                message = "negative numbers not allowed -1,-5"
+                expect { StringCalculator.add(numbers) }.to raise_error(ExceptionHandler::NegativeNumbersNotAllowed, message)
+            end
         end
     end
 

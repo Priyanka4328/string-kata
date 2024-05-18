@@ -4,4 +4,7 @@ module ExceptionHandler
 
     class InvalidNumbersString < StandardError
     end
+
+    class NegativeNumbersNotAllowed < StandardError
+    end
 end
